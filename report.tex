@@ -21,17 +21,25 @@
 \section{Introduction and Problem Definition}
 The goal of this analysis is to take a gene expression data set for a mouse and develop a model to predict the amount of the gene ``Mapk1".  In general, gene analysis is important because they are an indicator for the current and future health issues for the organism as well as the organism's offspring.  However, the procedures to decompose the gene expressions can be expensive and can take
 a long time, so a model that requires few predictors to predict the value of a certain gene is crucial to accurate and early diagnosis 
-for a potential disease.  In addition, experiments can be done to assess the effects from the presence or absence of specific genes to an organism so cures for these diseases can be devloped and doctors know exactly what genes to target to cure their patients.\\
+for a potential disease.  In addition, experiments can be done to assess the effects from the presence or absence of specific genes to an organism so cures for these diseases can be developed and doctors know exactly what genes to target to cure their patients.\\
 %
 The data set that is used to develop a model is very small.  There are only 40 different gene expressions, with the responses from 24 genes
 in each.  There are no missing values.  The responses are all real numbers, ranging from -2.5 to 2.  Model types to investigate include linear regression with least squares, regularized linear regression, and K-Nearest-Neighbors.  In addition, resampling methods such as boostrapping and cross-validation will be extremely useful as there is so little data.  These methods and techniques are generally quite interpretable and the robustness can be tested using the resampling methods mentioned above.
 %
 \section{Model Development}
 
-\subsection{Best Subset Using Linear Models}
+\subsection{Best Subset Selection Using Linear Models}
 There are 22 genes that can be leveraged to predict the response for the ``Mapk1" gene so one of the implemented models is the best subset selection algorithm.  In this algorithm, all possible $2^r$ linear models are fit to the data using least squares where $r$ is the number of predictors (in this case, $r=22$).  Then, the algorithm returns the best set of predictors for a model of size $r$, for each $r$.  Generally, this algorithm is very computationally intensive but there are only $n=40$ data points so each iteration runs quite quickly on an average computer.  The downside of this algorithm for this data set is that there are only 40 data points, so splitting it further into training and test sets would yield poor estimates of the model for each iteration and the test set is still quite small.  In addition, there are more steps to fit each of the best predictor subsets to the data again to find the coefficients for the linear model of that size and to evaluate the training error and/or test error.
 
 \subsection{Forward-Backward Model Selection with Bayesain Information Criterion (BIC)}
+The Forward-Backward Model Selection is a variant of the Best Subset Selection which is less computationally expensive.  The algorithm starts with an initial model and a corresponding objective value (in this case we use the Bayesain Information Criterion (BIC) because it has a larger penalty on larger models).  The function to calculate the BIC is as follows:
+\begin{equation}
+BIC=-log(L)+d*log(n)
+\label{eq:BIC}
+\end{equation}
+In Equation \ref{eq:BIC}, $L$ is the value of the likelihood function, $d$ is the number of predictors in the model, and $n$ is the number of data samples.  A smaller value of BIC implies a better model.  Then, the models with one more variable and the models with one less variable are each fit in turn.  If the current size of the model was $k$, then the model fits $22-k$ models of size $k+1$ and $k-1$ models of size $k-1$ and evaluates the objective value of each.  The next step of the algorithm uses the model with the smallest objective value, which could be the original model of size $k$.  The algorithm finishes when adding or removing a variable from the model would yield a higher objective value.
+
+\subsection{Linear Regression with Regularization}
 
 \section{Results and Conclusions}
 
