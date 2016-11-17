@@ -1,6 +1,6 @@
 \documentclass[letterpaper]{article} 
 
- %\linespread{1.5}
+\linespread{1.5}
 \title{Predicting Gene ``Mapk1" in Mice}
 
 \author{
@@ -19,9 +19,9 @@
 %This needs to be written last
 
 \section{Introduction and Problem Definition}
-The goal of this analysis is to take a gene expression data set for a mouse and develop a model to predict the amount of the gene ``Mapk1".  In general, gene analysis is important because they are an indicator for the current and future health issues for the organism as well as the organism's offspring.  However, the procedures to decompose the gene expressions can be expensive and can take
-a long time, so a model that requires few predictors to predict the value of a certain gene is crucial to accurate and early diagnosis 
-for a potential disease.  In addition, experiments can be done to assess the effects from the presence or absence of specific genes to an organism so cures for these diseases can be developed and doctors know exactly what genes to target to cure their patients.\\
+The goal of this analysis is to take a gene expression data set for a mouse and develop a model to predict the amount of the gene ``Mapk1".  This gene is very prominent and plays a significant role in cell proliferation.  In general, cells reproduce to make new healthy cells and dispose of older cells; however, an abnormally large amount of cell proliferation can lead to cancerous cells.  If there exists a good (cheap and fast) method to measure the gene creation of proliferating proteins in a patient over time, then the doctors can detect the early onset of cancer and other diseases.  Early diagnosis and the resulting less-invasive treatment usually result in higher survival rate for these patients.\\
+%
+In general, gene analysis is important because they are an indicator for the current and future health issues for the organism as well as the organism's offspring.  However, the procedures to decompose the gene expressions can be expensive and can take a long time, so a model that requires few predictors to predict the value of a certain gene is crucial to accurate and early diagnosis for a potential disease.  In addition, experiments can be done to assess the effects from the presence or absence of specific genes to an organism so cures for these diseases can be developed and doctors know exactly what genes to target to cure their patients.\\
 %
 The data set that is used to develop a model is very small.  There are only 40 different gene expressions, with the responses from 24 genes
 in each.  There are no missing values.  The responses are all real numbers, ranging from -2.5 to 2.  Model types to investigate include linear regression with least squares, regularized linear regression, and K-Nearest-Neighbors.  In addition, resampling methods such as boostrapping and cross-validation will be extremely useful as there is so little data.  These methods and techniques are generally quite interpretable and the robustness can be tested using the resampling methods mentioned above.
