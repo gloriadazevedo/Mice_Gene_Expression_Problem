@@ -1,9 +1,10 @@
+#In order to get a simple model, two approaches have been applied: Using a lasso regularizer and using BIC (which penalizes having a large number of parameters) for exhaustive subset selection, to find the most accurate and simple model
 setwd("/Users/pihu_yadav/Desktop/Mice_Gene_Expression_Problem-master")
 full_data<-read.csv("Kidney_2.csv")
 
+#Performing Lasso Regression
 library(glmnet)
 x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
-
 y_data<-full_data$"Mapk1"
 X <- as.matrix(x_data)
 Y<-y_data
@@ -39,7 +40,9 @@ coef(cvfit, s = "lambda.1se")
 Y_pred<-predict(cvfit, X)
 mean((Y_pred-Y)^2)
 #[1] 0.01096602
+#From this value we see that the lasso actually performs a good prediction, as the error is small.
 
+#Using exhaustive best subset selection with BIC as the selection criteria
 install.packages("leaps")
 library(leaps)
 regsubsets.out <-
