@@ -14,11 +14,7 @@ mean((Y_pred-Y)^2)
 
 
 install.packages("leaps")
-
 library(leaps)
-
-
-
 regsubsets.out <-
 
     regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5       
