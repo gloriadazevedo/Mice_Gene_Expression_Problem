@@ -169,6 +169,7 @@ summary(regsubsets.out)
 #23  ( 1 ) "*"  
 
 plot(regsubsets.out)
+#From the plot we see that the model with the lowest value of BIC is the model with only 4 variables
 coef(regsubsets.out,4)
 #(Intercept)        Akt2         Rik      Pik3r3        Rac1 
 # -0.4446112  -0.4054803   0.2207164   0.2439920   0.3171645 
