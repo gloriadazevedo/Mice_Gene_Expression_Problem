@@ -10,36 +10,36 @@ X <- as.matrix(x_data)
 Y<-y_data
 cvfit <- glmnet::cv.glmnet(X, Y)
 coef(cvfit, s = "lambda.1se")
-#24 x 1 sparse Matrix of class "dgCMatrix"
-                     1
-#(Intercept) 0.01017884
-#Cdc42       .         
-#Pla2g6      .         
-#Akt2        .         
-#Plcg2       .         
-#Rac2        .         
-#Rik         0.04474769
-#Mapkapk2    .         
-#Pik3cd      .         
-#Pla2g5      .         
-#Sphk2       .         
-#Map2k1      .         
-#Pik3r3      0.13293097
-#Ptk2        .         
-#Nras        .         
-#Nos3        .         
-#Pik3r1      .         
-#Pik3ca      .         
-#Ppp3cb      .         
-#Map2k2      .         
-#Nfatc4      .         
-#Mapk13      .         
-#Rac1        0.04906813
-#Nfat5       .         
+24 x 1 sparse Matrix of class "dgCMatrix"
+                      1
+(Intercept) -0.04389607
+Cdc42        .         
+Pla2g6       .         
+Akt2         .         
+Plcg2        .         
+Rac2         .         
+Rik          0.06664806
+Mapkapk2     .         
+Pik3cd       .         
+Pla2g5       .         
+Sphk2        .         
+Map2k1       .         
+Pik3r3       0.15013675
+Ptk2         .         
+Nras         .         
+Nos3         .         
+Pik3r1       .         
+Pik3ca       .         
+Ppp3cb       .         
+Map2k2       .         
+Nfatc4       .         
+Mapk13       .         
+Rac1         0.08441959
+Nfat5        0.01435892  
 
-Y_pred<-predict(cvfit, X)
-mean((Y_pred-Y)^2)
-#[1] 0.01096602
+cvfit$lambda.1se
+[1] 0.03971015
+#Cross-validation error is 0.0121 as given by cvfit.cvm
 #From this value we see that the lasso actually performs a good prediction, as the error is small.
 
 #Using exhaustive best subset selection with BIC as the selection criteria
