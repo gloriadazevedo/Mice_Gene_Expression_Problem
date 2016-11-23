@@ -2,7 +2,7 @@
 setwd("/Users/pihu_yadav/Desktop/Mice_Gene_Expression_Problem-master")
 full_data<-read.csv("Kidney_2.csv")
 
-#Performing Lasso Regression
+#Performing Lasso Regression with 10 fold cross-validation
 library(glmnet)
 x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
 y_data<-full_data$"Mapk1"
