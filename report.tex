@@ -52,20 +52,24 @@ In Equation \ref{eq:BIC}, $L$ is the value of the likelihood function, $d$ is th
 (Insert Best subset plot here with the optimal size and the corresponding BIC values)
 
 \subsection{Linear Regression with Regularization}
-As an extension to linear regression, we also incorporate a regularization effect in order to make the model more robust.  For this application, we would like to test and evaluate the fewest number of genes possible as the chemical processes can take a long time.  Thus, we prefer a sparse model so that fewer genes are needed to predict the response gene ``Mapk1" and a model with fewer predictors will have smaller variance.\\
+As an extension to linear regression, we also incorporate a regularizer in order to make the model more robust.  In other words, instead of trying to find the coefficients for the linear model that minimizes the squared errors, we include some bias in the model in order to decrease the variance of the model and prevent overfitting.  This bias is of the model is shown by decreasing the coefficients of some predictors to be exactly $0$ which may not yield the smallest sum of squared differences, but for estimating new data the model will be more accurate. \\
+\null\\
+For this application, we would like to test and evaluate the fewest number of genes possible as the chemical processes can take a long time.  Thus, we prefer a sparse model so that fewer genes are needed to predict the response gene ``Mapk1" and a model with fewer predictors will have smaller variance.\\
 \null\\
 The lasso regularizer for linear regression yields sparse models.  When determining the coefficients for this model, we want to minimize the following objective function.  The rows of the input data are denoted by $x_i$ while the whole matrix that is used is $\mathcal{R}^{nxd}$, the output or response for data point $i$ is denoted by $y_i$ and the coeffecients for the predictors of the linear model are denoted in the vector $w$ that is made up of components $w_j$ for $j=1,\dots,d$
 \begin{equation}
-	\textbf{minimize}_w \sum_{i=1}^n(y_i-x_i^Tw)+\sum_{j=1}^d w_j
+	\textbf{minimize}_w \sum_{i=1}^n(y_i-x_i^Tw)^2+\lambda\sum_{j=1}^d |w_j| = \textbf{minimize} \sum_{i=1}^n(y_i-x_i^Tw)^2+\lambda||w||_1
 \end{equation}
+For this problem with few data points, we use cross validation to find optimal $\lambda$ value which acts as measure of how much bias the model is able to have.  If $\lambda = 0$ then we get the nonregularized problem, however, if $\lambda$ is too large, then all of the coefficients will go to $0$ to find the minimum objective value.  The $\lambda$ that minimizes the mean cross validated error yields a model with 6 predictors and an intercept.  We also investigate using the largest $\lambda$ such that error is within 1 standard error of the minimum value of the response.  This yields a smaller model with an intercept and only 4 predictors.
 
 \section{Results and Conclusions}
+Because our outputs are real numbers, we use a squared error loss to evaluate the training error and the test error of our model.  
 
 \section{Next Steps}
-In the future, if data is collected for more mice and there are more gene expressions to analyze, other methods such as K-Nearest-
-Neighbors (KNN) can be implemented which is a robust, unsupervised machine learning technique.  Currently, as there are only 40 
-samples, the number of points that have k nearst neighbors is at most 40-k, assuming that the whole data set is used as a training 
+In the future, if data is collected for more mice and there are more gene expressions to analyze, other methods such as K-Nearest-Neighbors (KNN) can be implemented which is a robust, unsupervised machine learning technique.  Currently, as there are only $40$ 
+samples, the number of points that have k nearst neighbors is at most $40-k$, assuming that the whole data set is used as a training 
 set and none of it is used to evaluate the model and estimate test error.  Currently if the algorithm is implemented, the 
-model is grossly overfit on the training data, which yields a low training error, which does not imply a low test error for future samples.
-
+model is grossly overfit on the training data, which yields a low training error, which does not imply a low test error for future samples.\\
+\null\\
+In addition, in the diagnosis setting, there may also be predefined ranges of the amounts of the gene or protein that can be a normal range, a warning range, and a dangerous range of that gene or protein.  In that case, we can reframe the problem as ordinal classification and use methods such as KNN, decision trees, or other machine learning techniques.  These methods are more variable and some sort of resampling method will still have to be used since there is not much data present. 
 \end{document}
