@@ -1,5 +1,5 @@
 \documentclass{article} 
-\usepackage{geometry}
+\usepackage{geometry,graphicx,float}
 \geometry{
 	a4paper,
 	total={170mm,257mm},
@@ -32,16 +32,23 @@ In general, gene analysis is important because they are an indicator for the cur
 \null\\
 %
 The data set that is used to develop a model is very small.  There are only 40 different gene expressions, with the responses from 24 genes
-in each.  There are no missing values.  The responses are all real numbers, ranging from -2.5 to 2.  Model types to investigate include linear regression with least squares, regularized linear regression, and K-Nearest-Neighbors.  In addition, resampling methods such as boostrapping and cross-validation will be extremely useful as there is so little data.  These methods and techniques are generally quite interpretable and the robustness can be tested using the resampling methods mentioned above.
+in each.  There are no missing values.  The responses are all real numbers, ranging from -2.5 to 2.  Model types to investigate include best subset selection and forward/backward selection for linear model selection (with least squares as the loss function) as well as regularized linear regression.  In addition, resampling methods such as boostrapping and cross-validation will be extremely useful as there is so little data.  These methods and techniques are generally quite interpretable and the robustness can be tested using the resampling methods mentioned above.\\
+\null\\
+
 %
 \section{Model Development}
 
 \subsection{Best Subset Selection Using Linear Models}
 There are 22 genes that can be leveraged to predict the response for the ``Mapk1" gene so one of the implemented models is the best subset selection algorithm.  In this algorithm, all possible $2^r$ linear models are fit to the data using least squares where $r$ is the number of predictors (in this problem, $r=22$).  Then, the algorithm returns the best set of predictors for a model of size $r$, for each $r$.  Generally, this algorithm is very computationally intensive but there are only $n=40$ data points so each iteration runs quite quickly on an average computer.  The downside of this algorithm for this data set is that there are only 40 data points, so splitting it further into training and test sets would yield poor estimates of the model for each iteration and the test set is still quite small.  In addition, there are more steps to fit each of the best predictor subsets to the data again to find the coefficients for the linear model of that size and to evaluate the training error and/or test error, if applicable.\\
 \null\\
-(Insert Best subset plot here with the optimal size and the corresponding BIC values)
+\begin{figure}[H]
+	\caption{Best Subset of Predictors for Each Model Size, ordered by increasing BIC}
+	\includegraphics[scale=0.60]{best_subsets}
+	\centering
+	\label{fig:best_subsets}
+\end{figure}
 
-\subsection{Forward-Backward Model Selection with Bayesain Information Criterion (BIC)}
+\subsection{Forward-Backward Model Selection}
 The Forward-Backward Model Selection is a variant of the Best Subset Selection which is less computationally expensive.  In the future, if we had more predictors or genes for the model instead of only 22, then this would be a good algorithm to use instead of best subsets as the number of models tested increases linearly instead of exponentially.  The algorithm starts with an initial model and a corresponding objective value (in this case we use the Bayesain Information Criterion (BIC) because it has a larger penalty on larger models).  The function to calculate the BIC is as follows:
 \begin{equation}
 BIC=-log(L)+d*log(n)
@@ -60,7 +67,7 @@ The lasso regularizer for linear regression yields sparse models.  When determin
 \begin{equation}
 	\textbf{minimize}_w \sum_{i=1}^n(y_i-x_i^Tw)^2+\lambda\sum_{j=1}^d |w_j| = \textbf{minimize} \sum_{i=1}^n(y_i-x_i^Tw)^2+\lambda||w||_1
 \end{equation}
-For this problem with few data points, we use cross validation to find optimal $\lambda$ value which acts as measure of how much bias the model is able to have.  If $\lambda = 0$ then we get the nonregularized problem, however, if $\lambda$ is too large, then all of the coefficients will go to $0$ to find the minimum objective value.  The $\lambda$ that minimizes the mean cross validated error yields a model with 6 predictors and an intercept.  We also investigate using the largest $\lambda$ such that error is within 1 standard error of the minimum value of the response.  This yields a smaller model with an intercept and only 4 predictors.
+For this problem with few data points, we use cross validation to find optimal $\lambda$ value which acts as measure of how much bias the model is able to have.  If $\lambda = 0$ then we get the nonregularized problem, however, if $\lambda$ is too large, then all of the coefficients will go to $0$ to find the minimum objective value.  The $\lambda$ that minimizes the mean cross validated error yields a model with 6 predictors and an intercept and the resulting mean squared error is 0.0121.  We also investigate using the largest $\lambda$ such that error is within 1 standard error of the minimum value of the response.  This yields a smaller model with an intercept and only 4 predictors.
 
 \section{Results and Conclusions}
 Because our outputs are real numbers, we use a squared error loss to evaluate the training error and the test error of our model.  
