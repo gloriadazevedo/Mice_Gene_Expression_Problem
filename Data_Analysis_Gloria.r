@@ -111,3 +111,20 @@ test_error
 #Output = 1.008477 
 
 #Maybe can implement KNN--but not enough data (discuss!)
+mis_classified_vector<-rep(1:15)
+
+#Columns to include (everything except "Gene.Name","Mapk1")
+include_col<-colnames(full_data)
+include_col<-include_col[-1]
+include_col<-include_col[-5]
+
+for (i in 1:length(mis_classified_vector)){
+	model_fit<-knn.cv(full_data[include_col],full_data$"Mapk1",i)
+	#Use this if the output is 0 or 1
+	#mis_classified<-sum(abs(as.numeric(model_fit)-full_data$"Mapk1"))
+	#Squared error loss
+	mis_classified<-sum((as.numeric(model_fit)-full_data$"Mapk1")^2)
+	mis_classified_vector[i]<-mis_classified
+}
+plot()
+

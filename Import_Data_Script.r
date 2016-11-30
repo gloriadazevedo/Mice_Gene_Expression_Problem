@@ -18,3 +18,5 @@ full_data<-read.table("Kidney_2.csv",header=TRUE,sep=",",stringsAsFactors=FALSE)
 #thus we will need to use some resampling techniques such as cross validation and bootstrap
 #as well as potentially force the model to be small for lower test error
 
+#Libraries used
+library(class)
