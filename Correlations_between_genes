@@ -1,0 +1,13 @@
+
+x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
+cormat=cor(x_data,x_data)
+num0.5=sum(cormat>0.5)
+m=-0.5
+numless0.5=sum(cormat<m)
+# genes that are negatively correlated with a negative value of less than -0.5 are Pik3cd & Rac1 and Plcg2 & Nos3
+# genes that are positively correlated with a value of greater than 0.5
+# Map2k1 and  Pik3r3 and Nfat5 with Rik
+# Rac1 with Pla2g6
+# Map2k1 with Pik3r3
+# Nfat5 with Pik3r3
+# Rak1 with Ptk2
