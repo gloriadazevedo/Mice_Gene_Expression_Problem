@@ -126,5 +126,4 @@ for (i in 1:length(mis_classified_vector)){
 	mis_classified<-sum((as.numeric(model_fit)-full_data$"Mapk1")^2)
 	mis_classified_vector[i]<-mis_classified
 }
-plot()
 
