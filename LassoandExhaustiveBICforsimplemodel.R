@@ -77,15 +77,13 @@ cvfit$lambda.1se
 install.packages("leaps")
 library(leaps)
 regsubsets.out <-
-
-    regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5       
-,
+    regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5,
                data = full_data,
                nbest = 1,       # 1 best model for each number of predictors
                nvmax = NULL,    # NULL for no limit on number of variables
                force.in = NULL, force.out = NULL,
                method = "exhaustive")
-summary(regsubsets.out)
+summary(regsubsets.out$bic)
 #Subset selection object
 #Call: regsubsets.formula(Mapk1 ~ Cdc42 + Pla2g6 + Akt2 + Plcg2 + Rac2 + 
 #    Rik + Mapkapk2 + Pik3cd + Pla2g5 + Sphk2 + Map2k1 + Pik3r3 + 
@@ -203,6 +201,7 @@ coef(regsubsets.out,4)
 
 #Top model based on picture
 best_1<-lm(Mapk1~Akt2+Rik+Pik3r3+Rac1,data=full_data)
+coef(best_1)
 best_1_BIC<-BIC(best_1)
 best_1_BIC #Output is -68.98881?!?!
 
