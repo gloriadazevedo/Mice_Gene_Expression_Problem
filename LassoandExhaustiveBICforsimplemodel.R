@@ -198,11 +198,4 @@ coef(regsubsets.out,4)
 
 #Want to know the specific BIC value for the top two models 
 #since the graphic doesn't show more decimal places.
-
-#Top model based on picture
-best_1<-lm(Mapk1~Akt2+Rik+Pik3r3+Rac1,data=full_data)
-coef(best_1)
-best_1_BIC<-BIC(best_1)
-best_1_BIC #Output is -68.98881?!?!
-
-#Second top model based on picture
+sort(summary(regsubsets.out)$bic)
