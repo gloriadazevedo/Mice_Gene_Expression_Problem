@@ -61,7 +61,7 @@ There are 22 genes that can be leveraged to predict the response for the ``Mapk1
 \null\\
 \begin{figure}[H]
 	\caption{Best Subset of Predictors for Each Model Size, ordered by increasing BIC}
-	\includegraphics[scale=0.60]{best_subsets}
+	\includegraphics[scale=1]{best_subsets}
 	\centering
 	\label{fig:best_subsets}
 \end{figure}
@@ -113,5 +113,7 @@ We also note that even with a model of only 4 predictors, the degrees of freedom
 \section{Next Steps}
 In the future, if data is collected for more mice and there are more gene expressions to analyze, other methods such as K-Nearest-Neighbors (KNN) can be implemented which is a robust, unsupervised machine learning technique.  Currently, as there are only $40$ samples, the number of points that have k nearst neighbors is at most $40-k$, assuming that the whole data set is used as a training set and none of it is used to evaluate the model and estimate test error.  Currently if the algorithm is implemented, the model is grossly overfit on the training data, which yields a low training error, which does not imply a low test error for future samples.\\
 \null\\
-In addition, in the real health diagnosis setting, there may be predefined ranges of the amounts of the gene/protein that is classified as a normal range, a warning range, and a dangerous range.  In that case, we can reframe the problem as ordinal classification and use methods such as KNN, decision trees, or other machine learning techniques.  These methods are more variable in terms of model training and some sort of resampling method will still have to be used since there is not much data present. 
+In addition, in the real health diagnosis setting, there may be predefined ranges of the amounts of the gene/protein that is classified as a normal range, a warning range, and a dangerous range.  In that case, we can reframe the problem as ordinal classification and use methods such as KNN, decision trees, or other machine learning techniques.  These methods are more variable in terms of model training and some sort of resampling method will still have to be used since there is not much data present. \\
+\null\\
+In the future we can also incorporate more information about the specific genes to force them in model even if they're highly correlated.  
 \end{document}

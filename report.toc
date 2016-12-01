@@ -2,7 +2,7 @@
 \contentsline {section}{\numberline {2}Introduction and Problem Definition}{2}
 \contentsline {section}{\numberline {3}Model Development}{3}
 \contentsline {subsection}{\numberline {3.1}Best Subset Selection Using Linear Models}{3}
-\contentsline {subsection}{\numberline {3.2}Forward-Backward Model Selection}{3}
-\contentsline {subsection}{\numberline {3.3}Linear Regression with Regularization}{4}
-\contentsline {section}{\numberline {4}Results and Conclusions}{5}
-\contentsline {section}{\numberline {5}Next Steps}{6}
+\contentsline {subsection}{\numberline {3.2}Forward-Backward Model Selection}{4}
+\contentsline {subsection}{\numberline {3.3}Linear Regression with Regularization}{5}
+\contentsline {section}{\numberline {4}Results and Conclusions}{6}
+\contentsline {section}{\numberline {5}Next Steps}{7}
