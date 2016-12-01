@@ -70,7 +70,7 @@ summary(min_lambda_model)
 
 cvfit$lambda.1se
 [1] 0.03971015
-#Cross-validation error is 0.0121 as given by cvfit.cvm
+#Cross-validation error is 0.013 as given by cvfit.cvm
 #From this value we see that the lasso actually performs a good prediction, as the error is small.
 
 #Using exhaustive best subset selection with BIC as the selection criteria
@@ -79,19 +79,12 @@ library(leaps)
 regsubsets.out <-
 
     regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5       
-
 ,
-
                data = full_data,
-
                nbest = 1,       # 1 best model for each number of predictors
-
                nvmax = NULL,    # NULL for no limit on number of variables
-
                force.in = NULL, force.out = NULL,
-
                method = "exhaustive")
-
 summary(regsubsets.out)
 #Subset selection object
 #Call: regsubsets.formula(Mapk1 ~ Cdc42 + Pla2g6 + Akt2 + Plcg2 + Rac2 + 
@@ -204,3 +197,13 @@ plot(regsubsets.out)
 coef(regsubsets.out,4)
 #(Intercept)        Akt2         Rik      Pik3r3        Rac1 
 # -0.4446112  -0.4054803   0.2207164   0.2439920   0.3171645 
+
+#Want to know the specific BIC value for the top two models 
+#since the graphic doesn't show more decimal places.
+
+#Top model based on picture
+best_1<-lm(Mapk1~Akt2+Rik+Pik3r3+Rac1,data=full_data)
+best_1_BIC<-BIC(best_1)
+best_1_BIC #Output is -68.98881?!?!
+
+#Second top model based on picture
