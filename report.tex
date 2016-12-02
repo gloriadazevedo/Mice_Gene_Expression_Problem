@@ -77,9 +77,9 @@ From the chart we determine that the model with the lowest BIC value is the one 
 The chosen model is very comprehensive, as it is built using the entire dataset; however, it is not certain that it is the best model for predicting on new data that the model was not trained on, i.e. test data.  Thus, despite the problems associated with splitting this small dataset further, we implemented a cross validation procedure. The procedure repeats as follows:\\
 1. The data is randomly divided into training (75\% of the points) and test data (25\% of the points).\\
 2. All possible $2^r$ model combinations are fit on the training data.\\
-3. The best model for each model size is chosen and the error of the that model on the test error is computed. \\
+3. The best model for each size is chosen and the error of that model on the test set is computed. \\
 \null\\
-This procedure was done 40 times with different random number streams for reporducibility.  For each iteration, the model size returned corresponded to the one with lowest test error.  The model size that was returned the most was size 2 with predictors $Pik3r3$ and $Rac1$. This model is similar to the model built on the entire data, but that one included genes $Rik$ and $Akt2$ as well.\\
+This procedure was done 40 times with different random number streams for reproducibility.  For each iteration, the model size returned corresponded to the one with lowest test error.  The model size that was returned the most was size 2 with predictors $Pik3r3$ and $Rac1$. This model is similar to the model built on the entire data, but that one included genes $Rik$ and $Akt2$ as well.\\
 \null\\
 There are a strong correlation effects between the genes $Rik$ and $Pik3r3$ as well as $Nfat5$ and $Mapk1$. Hence, since these genes vary together, adding only one of them to the final model should be sufficient and should capture the changes in the outcome gene effectively. This is why our model with only 2 predictors may be considered more effective than other bigger models for the model size.  In reality this one may be the best since it would only require testing two genes instead of 4 or 5 so some higher error can be tolerated for a cheaper and faster diagnosis.
 %
