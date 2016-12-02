@@ -110,7 +110,7 @@ test_error<-test_error+(y_predict-y_test)^2
 test_error
 #Output = 1.008477 
 
-#Maybe can implement KNN--but not enough data (discuss!)
+#Maybe can implement KNN--but not enough data 
 mis_classified_vector<-rep(1:15)
 
 #Columns to include (everything except "Gene.Name","Mapk1")

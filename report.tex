@@ -1,11 +1,20 @@
 \documentclass{article} 
-\usepackage{geometry,graphicx,float}
+\usepackage{geometry,amssymb,amsmath,listings,graphicx,xcolor,float}
 \geometry{
 	a4paper,
 	total={170mm,257mm},
 	left=20mm,
 	top=20mm,
 }
+
+\lstdefinestyle{base}{
+	language=R,
+	emptylines=1,
+	breaklines=true,
+	basicstyle=\ttfamily\color{black},
+	moredelim=**[is][\color{red}]{@}{@},
+}
+
 \linespread{1.5}
 \title{Predicting Gene ``Mapk1" in Mice}
 
@@ -62,14 +71,14 @@ There are 23 genes that can be leveraged to predict the response for the ``Mapk1
 	\centering
 	\label{fig:best_subsets}
 \end{figure}
+
 From the chart we determine that the model with the lowest BIC value is the one that includes $Akt2$, $Rik$, $Pik3r3$, and $Rac1$.  The BIC value for the top model (4 predictors) is  -19.2352 while the BIC value for the second best model (5 predictors) is -18.9804 which are both fairly close, if we wanted to consider the 5 predictor model as well.\\
 \null\\
-The chosen model is very comprehensive, as it is built using the entire dataset; however, it is not certain that it is the best model for predicting on new data that the model was not trained on, i.e. test data.  Thus, despite the problems associated with splitting this small dataset further, we implemented a cross validation procedure. The procedure repeats as follows:
-
-1. The data is randomly divided into training (75\% of the points) and test data (25\% of the points)\\
+The chosen model is very comprehensive, as it is built using the entire dataset; however, it is not certain that it is the best model for predicting on new data that the model was not trained on, i.e. test data.  Thus, despite the problems associated with splitting this small dataset further, we implemented a cross validation procedure. The procedure repeats as follows:\\
+1. The data is randomly divided into training (75\% of the points) and test data (25\% of the points).\\
 2. All possible $2^r$ model combinations are fit on the training data.\\
 3. The best model for each model size is chosen and the error of the that model on the test error is computed. \\
-
+\null\\
 This procedure was done 40 times with different random number streams for reporducibility.  For each iteration, the model size returned corresponded to the one with lowest test error.  The model size that was returned the most was size 2 with predictors $Pik3r3$ and $Rac1$. This model is similar to the model built on the entire data, but that one included genes $Rik$ and $Akt2$ as well.\\
 \null\\
 There are a strong correlation effects between the genes $Rik$ and $Pik3r3$ as well as $Nfat5$ and $Mapk1$. Hence, since these genes vary together, adding only one of them to the final model should be sufficient and should capture the changes in the outcome gene effectively. This is why our model with only 2 predictors may be considered more effective than other bigger models for the model size.  In reality this one may be the best since it would only require testing two genes instead of 4 or 5 so some higher error can be tolerated for a cheaper and faster diagnosis.
@@ -170,4 +179,178 @@ We also note the degrees of freedom of these models are low since there are only
 In the future, if data is collected for more mice and there are more gene expressions to analyze, we may be able to use test data as a better indicator of the accuracy of our models. With the present data, we got variable results from training and testing on separate sets, which may be due to the fewer number of data points available. In this case, other methods such as K-Nearest-Neighbors (KNN) or fitting polynomial splines can be implemented. KNN is a robust, unsupervised machine learning technique.  Currently, as there are only $40$ samples, the number of points that have k nearest neighbors is at most $40-k$, assuming that the whole data set is used as a training set and none of it is used to evaluate the model and estimate test error.  If KNN is implemented on the current data, the model overfits to the training data, consequently yielding a low training error, which does not imply a low test error for new samples.  Fitting piecewise polynomials to the data may also be useful if the data is inherently nonlinear, which we have assumed so far.  \\
 \null\\
 In addition, in the real health diagnosis setting, there may be predefined ranges of the amounts of the gene/protein that is classified as a normal range, a warning range, and a dangerous range.  In that case, we can reframe the problem as ordinal classification and use methods such as KNN, decision trees, or other machine learning techniques.  These methods are more variable in terms of model training and some sort of resampling method will still have to be used since there is not much data present. 
+
+\section{Appendix: R Code}
+\begin{lstlisting}[frame=single,style=base]
+full_data<-read.table("Kidney_2.csv",header=TRUE,sep=",",stringsAsFactors=FALSE)
+library(class)
+
+#Predefine some commonly used variables
+n<-length(full_data$Mapk1)
+
+#Naive way is to implement best subset selection since there are only 24 variables
+library(leaps)
+
+#The predictors are everything except for the field Mapk1
+#Also can't have categorical data in there
+x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
+y_data<-full_data$"Mapk1"
+best_subset<-leaps(x_data,y_data,nbest=1,method="adjr2",names=colnames(x_data))
+#Thus we get the best model for each of the sample sizes--then can use linear regression
+#to get the coefficients for it.
+#Use adjusted R^2 as the criterion since that takes into account model size
+
+#Maybe can implement KNN--but not enough data 
+mis_classified_vector<-rep(1:15)
+
+#Columns to include (everything except "Gene.Name","Mapk1")
+include_col<-colnames(full_data)
+include_col<-include_col[-1]
+include_col<-include_col[-5]
+
+for (i in 1:length(mis_classified_vector)){
+model_fit<-knn.cv(full_data[include_col],full_data$"Mapk1",i)
+#Use this if the output is 0 or 1
+#mis_classified<-sum(abs(as.numeric(model_fit)-full_data$"Mapk1"))
+#Squared error loss
+mis_classified<-sum((as.numeric(model_fit)-full_data$"Mapk1")^2)
+mis_classified_vector[i]<-mis_classified
+}
+
+#Lasso with Cross Validation
+library(leaps)
+full_data<-subset(full_data, select = -c(Gene.Name) )
+x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
+y_data<-full_data$"Mapk1"
+best_subset<-leaps(x_data,y_data,nbest=1,method="adjr2",names=colnames(x_data))
+
+library(glmnet)
+x_data<-subset(full_data, select = -c(Mapk1,Gene.Name) )
+y_data<-full_data$"Mapk1"
+X <- as.matrix(x_data)
+Y<-y_data
+cvfit <- glmnet::cv.glmnet(X, Y, nfolds=40)
+coef(cvfit, s = "lambda.min")
+Y_pred<-predict(cvfit, X, s = "lambda.min")
+mean((Y_pred-Y)^2)
+
+library(leaps)
+regsubsets.out <-regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5,
+data = full_data,nbest = 1,       # 1 best model for each number of predictors
+nvmax = NULL,    # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive")
+
+summary(regsubsets.out)
+summary.regsubsets(regsubsets.out)
+plot(regsubsets.out)
+coef(regsubsets.out,4)
+
+#Calculating Correlations
+x_data<-subset(full_data, select = -c(Gene.Name) )
+cormat=cor(x_data,x_data)
+
+#Best Subset Selection with test set and training set separate
+arr=rep(0,40)
+for (k in 1:40)
+{
+set.seed(k)
+train=sample(c(1:40),30, replace=FALSE)
+train=sort(train)
+train=array(train)
+#you may also use train_index=sample(c(1:263),131) to create training data
+test=full_data[-train,]
+regfit.best=regsubsets(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5,data = full_data[train,], 
+nbest = 1, # 1 best model for each number of predictors
+nvmax = NULL,    # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive")
+plot(regfit.best)
+
+test.mat=model.matrix(Mapk1~ Cdc42+Pla2g6+Akt2+Plcg2+Rac2+Rik+Mapkapk2 +Pik3cd+Pla2g5+Sphk2+Map2k1+Pik3r3+Ptk2+Nras+Nos3+Pik3r1+Pik3ca+Ppp3cb+Map2k2+Nfatc4+Mapk13+Rac1+Nfat5 ,data=test) # create an X matrix of test data
+val.errors=rep(NA,23)
+for(i in 1:23){
+coefi=coef(regfit.best,id=i)
+pred=test.mat[,names(coefi)]%*%coefi
+val.errors[i]=mean((test$Mapk1-pred)^2)
+}
+val.errors
+arr[k]=which.min(val.errors)
+}
+
+#Want to calculate coefficients for these linear model  
+#Evaluate the fit via R^2 and Adjusted R^2
+model_1<-lm(Mapk1~Akt2+Rik+Pik3r3+ Rac1,data=full_data)
+
+summary(model_1)
+# Call:
+# lm(formula = Mapk1 ~ Akt2 + Rik + Pik3r3 + Rac1, data = full_data)
+
+# Residuals:
+# Min       1Q   Median       3Q      Max 
+# -0.16348 -0.06566  0.00381  0.05495  0.17092 
+
+# Coefficients:
+# Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -0.44461    0.15706  -2.831 0.007643 ** 
+# Akt2        -0.40548    0.16922  -2.396 0.022047 *  
+# Rik          0.22072    0.10178   2.169 0.036994 *  
+# Pik3r3       0.24399    0.11350   2.150 0.038565 *  
+# Rac1         0.31716    0.08464   3.747 0.000644 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 0.08281 on 35 degrees of freedom
+# Multiple R-squared:  0.6101,    Adjusted R-squared:  0.5656 
+# F-statistic: 13.69 on 4 and 35 DF,  p-value: 8.093e-07
+
+model_2<-lm(Mapk1~Rik+Pik3r3+Rac1+Nfat5,data=full_data)
+
+summary(model_2)
+
+# Call:
+# lm(formula = Mapk1 ~ Rik + Pik3r3 + Rac1 + Nfat5, data = full_data)
+
+# Residuals:
+# Min        1Q    Median        3Q       Max 
+# -0.217531 -0.060483  0.007193  0.051996  0.164377 
+
+# Coefficients:
+# Estimate Std. Error t value Pr(>|t|)   
+# (Intercept)  -0.3109     0.1979  -1.571  0.12515   
+# Rik           0.1741     0.1143   1.523  0.13665   
+# Pik3r3        0.2331     0.1304   1.788  0.08249 . 
+# Rac1          0.2570     0.0909   2.827  0.00772 **
+# Nfat5         0.0864     0.1397   0.619  0.54019   
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 0.08886 on 35 degrees of freedom
+# Multiple R-squared:  0.5511,    Adjusted R-squared:  0.4998 
+# F-statistic: 10.74 on 4 and 35 DF,  p-value: 8.703e-06
+
+model_3<-lm(Mapk1~Pik3r3+Rac1,data=full_data)
+
+summary(model_3)
+
+# Call:
+# lm(formula = Mapk1 ~ Pik3r3 + Rac1, data = full_data)
+
+# Residuals:
+# Min       1Q   Median       3Q      Max 
+# -0.19118 -0.05534 -0.00354  0.06817  0.20241 
+
+# Coefficients:
+# Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -0.05643    0.10239  -0.551 0.584876    
+# Pik3r3       0.40410    0.09469   4.268 0.000132 ***
+# Rac1         0.27832    0.09016   3.087 0.003821 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 0.0908 on 37 degrees of freedom
+# Multiple R-squared:  0.5045,    Adjusted R-squared:  0.4777 
+# F-statistic: 18.83 on 2 and 37 DF,  p-value: 2.284e-06
+\end{lstlisting}
+
 \end{document}

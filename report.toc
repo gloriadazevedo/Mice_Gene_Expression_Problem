@@ -6,3 +6,4 @@
 \contentsline {subsection}{\numberline {3.3}Linear Regression with Regularization}{5}
 \contentsline {section}{\numberline {4}Results and Conclusions}{6}
 \contentsline {section}{\numberline {5}Next Steps}{7}
+\contentsline {section}{\numberline {6}Appendix: R Code}{8}
