@@ -120,7 +120,7 @@ For Model 3 we get the following equation:
 \end{equation}
 In Model 3, both the predictors are highly significant, with Pik3r3 at the 0 significance level and Rac 1 as the 0.001 significance level. $R^2_{adj}=0.4777$, which is lower than what we are getting for Model 1 and Model 2. \\
 \null\\
-The non significance of most of the predictors in Model 2 may be partially caused by the high correlation between $Nfat5$ and the other predictors. The value of adjusted R squared for this model is lower than Model 1.\\
+The non-significance of most of the predictors in Model 2 may be partially caused by the high correlation between $Nfat5$ and the other predictors. The value of adjusted R squared for this model is lower than Model 1.\\
 \null\\
 In Model 3, while we are getting both the predictors to be highly significant, the value of adjusted R squared is lower than the other models. This may be because the model is too simplistic, and is thus underfitting the data. It is possible that Model 3 might actually be better, but since the Best Subset Regression model with test sets only predicted this to be the best model less than half the times, it would be difficult to make any concrete conclusions in the absence of more data, that would allow test set validation to be performed better. Thus, we conclude that Model 1 is the best at fitting the data to the linear model to predict $Mapk1$.\\
 \null\\
@@ -129,10 +129,26 @@ Hence, our final recommendation as justified above is to use Model 1 which is co
 	Mapk1 = -0.44461-0.40548Akt2+0.22072Rik+0.24399Pik3r3+0.31716Rac1
 	\label{eq:Model1}
 \end{equation}
-We also note that even with a model of only 4 predictors, the degrees of freedom in the model is only 35 for the data since we need to estimate the coefficients for each of the 4 predictors as well as the intercept for the linear model.  Since there are so few degrees of freedom, we may instead want to assume that the errors are from a student-t distribution instead of a normal distribution to get a more conservative estimate.
+We also note the degrees of freedom of these models are low since there are only 40 data points and the model needs to estimate 5 coefficients (intercept and 4 variables).  Since there are so few degrees of freedom, we may instead want to assume that the errors are from a student-t distribution instead of a normal distribution to get a more conservative estimate.
 %
+\begin{table}[!htbp] \centering 
+	\caption{Summary table of models and their coefficients} 
+	\label{table:results} 
+	\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+		\\[-1.8ex]\hline 
+		\hline \\[-1.8ex] 
+		Model Name & Model Varibles & Adjusted $R^2$ & Residual Standard Error\\ 
+		\hline \\[-1.8ex] 
+		Model 1 & Akt2, Rik, Pik3r3, Rac1 & 0.5656 & 0.08281 \\ 
+		Model 2 & Rik*, Pik3r3*, Rac1, Nfat5* & 0.4998 & 0.08886 \\ 
+		Model 3 & Pik3r3, Rac1 & 0.4777 & 0.0908\\ 
+		\hline \\[-1.8ex] 
+		* Denotes non-significant predictors in model 
+	\end{tabular} 
+\end{table} 
+
 \section{Next Steps}
-In the future, if data is collected for more mice and there are more gene expressions to analyze, we may be able to use test data as a better indicator of the accuracy of our models. With the present data, we got variable results from training and testing on separate sets, which may be due to the fewer number of data points available. In this case, other methods such as K-Nearest-Neighbors (KNN) can also be implemented. KNN is a robust, unsupervised machine learning technique.  Currently, as there are only $40$ samples, the number of points that have k nearest neighbors is at most $40-k$, assuming that the whole data set is used as a training set and none of it is used to evaluate the model and estimate test error.  Currently if the algorithm is implemented, the model is grossly overfitting on the training data, which yields a low training error, which does not imply a low test error for future samples.\\
+In the future, if data is collected for more mice and there are more gene expressions to analyze, we may be able to use test data as a better indicator of the accuracy of our models. With the present data, we got variable results from training and testing on separate sets, which may be due to the fewer number of data points available. In this case, other methods such as K-Nearest-Neighbors (KNN) or fitting polynomial splines can be implemented. KNN is a robust, unsupervised machine learning technique.  Currently, as there are only $40$ samples, the number of points that have k nearest neighbors is at most $40-k$, assuming that the whole data set is used as a training set and none of it is used to evaluate the model and estimate test error.  If KNN is implemented on the current data, the model overfits to the training data, consequently yielding a low training error, which does not imply a low test error for new samples.  Fitting piecewise polynomials to the data may also be useful if the data is inherently nonlinear, which we have assumed so far.  \\
 \null\\
 In addition, in the real health diagnosis setting, there may be predefined ranges of the amounts of the gene/protein that is classified as a normal range, a warning range, and a dangerous range.  In that case, we can reframe the problem as ordinal classification and use methods such as KNN, decision trees, or other machine learning techniques.  These methods are more variable in terms of model training and some sort of resampling method will still have to be used since there is not much data present. 
 \end{document}

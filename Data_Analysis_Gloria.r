@@ -179,3 +179,26 @@ summary(model_2)
 # Residual standard error: 0.08886 on 35 degrees of freedom
 # Multiple R-squared:  0.5511,    Adjusted R-squared:  0.4998 
 # F-statistic: 10.74 on 4 and 35 DF,  p-value: 8.703e-06
+
+model_3<-lm(Mapk1~Pik3r3+Rac1,data=full_data)
+
+summary(model_3)
+
+# Call:
+# lm(formula = Mapk1 ~ Pik3r3 + Rac1, data = full_data)
+
+# Residuals:
+     # Min       1Q   Median       3Q      Max 
+# -0.19118 -0.05534 -0.00354  0.06817  0.20241 
+
+# Coefficients:
+            # Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -0.05643    0.10239  -0.551 0.584876    
+# Pik3r3       0.40410    0.09469   4.268 0.000132 ***
+# Rac1         0.27832    0.09016   3.087 0.003821 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 0.0908 on 37 degrees of freedom
+# Multiple R-squared:  0.5045,    Adjusted R-squared:  0.4777 
+# F-statistic: 18.83 on 2 and 37 DF,  p-value: 2.284e-06

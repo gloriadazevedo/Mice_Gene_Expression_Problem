@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2016.11.18)  1 DEC 2016 16:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2016.11.18)  1 DEC 2016 20:59
 entering extended mode
 **./report.tex
 (report.tex
@@ -100,7 +100,11 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks17
 \@floatcapt=\box27
 )
-(report.aux)
+(report.aux
+
+LaTeX Warning: Label `eq:Model1' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -234,54 +238,57 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {C:/Users/glori/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] <best_s
-ubsets.png, id=18, 527.47063pt x 348.30125pt>
+ubsets.png, id=18, 789.95125pt x 619.31375pt>
 File: best_subsets.png Graphic file (type png)
 
 <use best_subsets.png>
 Package pdftex.def Info: best_subsets.png used on input line 64.
-(pdftex.def)             Requested size: 527.46933pt x 348.3004pt.
-
-Overfull \hbox (43.77249pt too wide) in paragraph at lines 64--67
- [][] 
- []
-
+(pdftex.def)             Requested size: 473.9744pt x 371.59111pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 60--67
 
  []
 
-[3] [4 <./best_subsets.png>] [5]
-Overfull \hbox (2.44293pt too wide) in paragraph at lines 114--119
+[3 <./best_subsets.png>] [4] [5] [6]
+Overfull \hbox (63.15485pt too wide) in paragraph at lines 137--148
+ [][] 
+ []
+
+
+Overfull \hbox (2.44293pt too wide) in paragraph at lines 151--154
 \OT1/cmr/m/n/10 In ad-di-tion, in the real health di-ag-no-sis set-ting, there 
 may be pre-de-fined ranges of the amounts of the gene/protein
  []
 
-[6] [7] (report.aux) ) 
+[7] [8] (report.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2045 strings out of 493333
- 30318 string characters out of 3130142
- 99802 words of memory out of 3000000
- 5565 multiletter control sequences out of 15000+200000
+ 2049 strings out of 493333
+ 30364 string characters out of 3130142
+ 101857 words of memory out of 3000000
+ 5569 multiletter control sequences out of 15000+200000
  8064 words of font info for 29 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,7n,28p,1402b,236s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/glori/Ap
-pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/U
-sers/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmm
-i7.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/glori/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/glori/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/gl
-ori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb
->
-Output written on report.pdf (7 pages, 220251 bytes).
+ 40i,9n,28p,1418b,236s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/glori/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/glori/AppData/L
+ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/glo
+ri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmr17.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmr7.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/glori/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on report.pdf (8 pages, 234515 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
+ 76 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
